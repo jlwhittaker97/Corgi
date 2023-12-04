@@ -130,20 +130,20 @@ public class Main {
             return res.body();
         });
         // Get, given an item ID, all offerings from all distributors for that item, including the distributor name, ID, and cost
-//        get("/distributors/offeringsForItem", (req, res) -> {
-//            String resultPrint = null;
-//            try {
-//                String itemID = req.queryParams("ITEM_ID");
-//                JSONArray distributors = DatabaseManager.getOfferingsForItem(itemID);
-//                resultPrint = distributors.toString();
-//                res.status(200);
-//            } catch (Exception e) {
-//                resultPrint = e.getMessage();
-//                res.status(400);
-//            }
-//            res.body(resultPrint);
-//            return res.body();
-//        });
+        get("/distributors/offeringsForItem", (req, res) -> {
+            String resultPrint = null;
+            try {
+                String itemID = req.queryParams("ITEM_ID");
+                JSONArray distributors = DatabaseManager.getOfferingsForItem(itemID);
+                resultPrint = distributors.toString();
+                res.status(200);
+            } catch (Exception e) {
+                resultPrint = e.getMessage();
+                res.status(400);
+            }
+            res.body(resultPrint);
+            return res.body();
+        });
         // Get the cheapest price for restocking an item at a given quantity from all distributors
         get("/distributors/cheapestRestockPrice", (req, res) -> {
             String resultPrint = null;

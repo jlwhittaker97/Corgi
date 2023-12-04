@@ -221,7 +221,7 @@ public class DatabaseManager {
     }
     // Get, given a distributors ID, the items distributed by a given distributor, including the item name, ID, and cost
     public static JSONArray getDistributorsItems(String distID) {
-        String sql = "SELECT items.name, items.id, cost  FROM (SELECT name, distributors.id, item, cost FROM distributors JOIN distributor_prices ON distributors.id = distributor WHERE distributors.id = " + distID + ") JOIN items where item = items.id";
+        String sql = "SELECT items.id AS item_id, items.name AS item_name, distributor_prices.cost FROM distributor_prices JOIN items ON distributor_prices.item = items.id WHERE distributor_prices.distributor =" + distID + ")";
         try {
             ResultSet set = conn.createStatement().executeQuery(sql);
             return convertResultSetToJson(set);
@@ -231,9 +231,8 @@ public class DatabaseManager {
         }
     }
     // Get, given an item ID, all offerings from all distributors for that item, including the distributor name, ID, and cost
-    public static JSONArray getOfferingsForItem(String ID) {
-        // figure this out
-        String sql = null;
+    public static JSONArray getOfferingsForItem(String itemID) {
+        String sql = "SELECT distributors.id AS dist_id, distributors.name AS dist_name, distributor_prices.cost FROM distributor_prices JOIN distributors ON distributor_prices.distributor = distributors.id WHERE distributor_prices.item = (SELECT id FROM items WHERE id ="+ itemID + ")";
         try {
             ResultSet set = conn.createStatement().executeQuery(sql);
             return convertResultSetToJson(set);
